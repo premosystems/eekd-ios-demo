@@ -1,0 +1,37 @@
+# ============================================
+# CocoaPods
+# The best way to manage library dependencies
+# in Objective-C projects.
+# @see http://cocoapods.org
+# @see http://docs.cocoapods.org
+# ============================================
+
+# iOS Platform
+platform :ios, '7.0'
+
+# Inhibits all the warnings from the CocoaPods libraries.
+inhibit_all_warnings!
+
+pod 'ObjectiveDDP', :git => 'https://github.com/boundsj/ObjectiveDDP.git'
+# pod 'ObjectiveDDP', :path => '../../../Open-Source-Projects/ObjectiveDDP'
+
+pod 'Facebook-iOS-SDK', '~>3.15.1'
+
+
+# Remove 64-bit build architecture from Pods targets
+post_install do |installer|
+    installer.project.targets.each do |target|
+        target.build_configurations.each do |configuration|
+            target.build_settings(configuration.name)['ARCHS'] = 'armv7 armv7s i386'
+            
+            if configuration.name == "Debug"
+                target.build_settings(configuration.name)['ONLY_ACTIVE_ARCH'] = 'YES'
+            else
+                target.build_settings(configuration.name)['ONLY_ACTIVE_ARCH'] = 'NO'
+            end
+            
+            target.build_settings(configuration.name)['VALID_ARCHS'] = 'armv7 armv7s i386'
+        end
+    end
+end
+

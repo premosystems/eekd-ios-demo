@@ -52,37 +52,21 @@
     } else {
         // Open a session showing the user the login UI
         // You must ALWAYS ask for public_profile permissions when opening a session
-        [FBSession openActiveSessionWithReadPermissions:@[@"public_profile",@"user_photos"]
+        [FBSession openActiveSessionWithReadPermissions:@[@"public_profile",@"user_photos",@"email"]
                                            allowLoginUI:YES
                                       completionHandler:
          ^(FBSession *session, FBSessionState state, NSError *error) {
              
              if (state == FBSessionStateOpen) {
-                 
-                 [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-                     //[self.view hideProgressHUD];
-                     if (!error) {
-                         // Success! Include your code to handle the results here
-                         NSLog(@"user info: %@", result);
-                         
-                         [self loginToMeteorWithFacebookData:result accessToken:session.accessTokenData.accessToken];
-                         
-                         [session setStateChangeHandler:NULL];
-                         
-                     } else {
-                         // An error occurred, we need to handle the error
-                         // See: https://developers.facebook.com/docs/ios/errors
-                         NSLog(@"error: %@",[error localizedDescription]);
-                     }
-                 }];
+                 [self loginToMeteorWithAccessToken:session.accessTokenData.accessToken];
              }
          }];
     }
 }
 
-- (void) loginToMeteorWithFacebookData:(NSDictionary*)fbData accessToken:(NSString*)accessToken
+- (void) loginToMeteorWithAccessToken:(NSString*)accessToken
 {
-    NSDictionary *parameters = @{@"fbData":fbData,@"accessToken":accessToken};
+    NSDictionary *parameters = @{@"accessToken":accessToken};
     [[CDMeteorClient sharedClient] callMethodName:@"login" parameters:@[parameters] responseCallback:^(NSDictionary *response, NSError *error) {
         
         NSLog(@"Result: %@",response);
@@ -90,12 +74,6 @@
         [CDMeteorClient sharedClient].userId = [response valueForKeyPath:@"result.id"];
         [CDMeteorClient sharedClient]->_sessionToken = [response valueForKeyPath:@"result.token"];
         [[CDMeteorClient sharedClient] _setAuthStateToLoggedIn];
-        
-        [[CDMeteorClient sharedClient] callMethodName:@"/facebook/getUserInfo" parameters:nil responseCallback:^(NSDictionary *response, NSError *error) {
-            
-            NSLog(@"response: %@",response);
-            
-        }];
         
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             

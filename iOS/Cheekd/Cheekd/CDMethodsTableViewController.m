@@ -251,6 +251,32 @@
             
         }];
         
+    } else if ([segue.identifier isEqualToString:@"/app/layer/createUser"]) {
+        
+        NSArray *params = @[[CDMeteorClient sharedClient].userId];
+        
+        [controller configureWithMethodBlock:^(CDMethodResultsViewController *resultsController) {
+            
+            [[CDMeteorClient sharedClient] callMethodName:@"/app/layer/createUser" parameters:params responseCallback:^(NSDictionary *response, NSError *error) {
+                
+                [controller logResponse:response error:error];
+                
+            }];
+        }];
+    }
+    
+    else if ([segue.identifier isEqualToString:@"/app/layer/deleteUser"]) {
+        
+        NSArray *params = @[[CDMeteorClient sharedClient].userId];
+        
+        [controller configureWithMethodBlock:^(CDMethodResultsViewController *resultsController) {
+            
+            [[CDMeteorClient sharedClient] callMethodName:@"/app/layer/deleteUser" parameters:params responseCallback:^(NSDictionary *response, NSError *error) {
+                
+                [controller logResponse:response error:error];
+                
+            }];
+        }];
     }
 }
 

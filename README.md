@@ -1,2 +1,2 @@
-eekd-ios-demo
-=============
+Cheekd-iOS
+==========

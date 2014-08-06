@@ -71,16 +71,22 @@
         
         NSLog(@"Result: %@",response);
         
-        [CDMeteorClient sharedClient].userId = [response valueForKeyPath:@"result.id"];
-        [CDMeteorClient sharedClient]->_sessionToken = [response valueForKeyPath:@"result.token"];
-        [[CDMeteorClient sharedClient] _setAuthStateToLoggedIn];
+        if (!error && [response valueForKeyPath:@"result.id"]) {
+            [CDMeteorClient sharedClient].userId = [response valueForKeyPath:@"result.id"];
+            [CDMeteorClient sharedClient]->_sessionToken = [response valueForKeyPath:@"result.token"];
+            [[CDMeteorClient sharedClient] _setAuthStateToLoggedIn];
+            
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                
+                UIViewController *viewController = [[UIStoryboard storyboardWithName:@"Storyboard" bundle:nil] instantiateViewControllerWithIdentifier:@"CDMethodNavigationController"];
+                [self presentViewController:viewController animated:YES completion:NULL];
+                
+            }];
+
+        } else {
+            [[[UIAlertView alloc] initWithTitle:@"Login Error" message:@"Facebook login failed." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:NULL] show];
+        }
         
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            
-            UIViewController *viewController = [[UIStoryboard storyboardWithName:@"Storyboard" bundle:nil] instantiateViewControllerWithIdentifier:@"CDMethodNavigationController"];
-            [self presentViewController:viewController animated:YES completion:NULL];
-            
-        }];
         
     }];
 }

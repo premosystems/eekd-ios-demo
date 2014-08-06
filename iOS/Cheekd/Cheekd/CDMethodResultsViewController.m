@@ -50,6 +50,7 @@
 
 - (void) log:(NSString*)message
 {
+    NSLog(@"log: %@",message);
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         self.textView.text = [NSString stringWithFormat:@"%@\n%@",self.textView.text,message];
     }];

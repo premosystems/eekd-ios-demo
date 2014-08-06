@@ -15,6 +15,8 @@
 
 @implementation CDMethodsTableViewController
 
+static NSString *testUserId;
+
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -27,6 +29,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    testUserId = [CDMeteorClient sharedClient].userId;
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -48,230 +51,80 @@
 {
     CDMethodResultsViewController *controller = segue.destinationViewController;
     
-    if ([segue.identifier isEqualToString:@"getPhotos"]) {
+    if ([segue.identifier isEqualToString:@"/app/connection_request_with_encounter"]) {
         
         [controller configureWithMethodBlock:^(CDMethodResultsViewController *resultsController) {
             
-            [[CDMeteorClient sharedClient] callMethodName:@"/facebook/currentUser/getProfilePhotos" parameters:nil responseCallback:^(NSDictionary *response, NSError *error) {
-                
-                [controller logResponse:response error:error];
-                
-            }];
-            
-        }];
-        
-    } else if ([segue.identifier isEqualToString:@"getUserInfo"]) {
-        
-        [controller configureWithMethodBlock:^(CDMethodResultsViewController *resultsController) {
-            
-            [[CDMeteorClient sharedClient] callMethodName:@"/facebook/getUserInfo" parameters:nil responseCallback:^(NSDictionary *response, NSError *error) {
-                
-                [controller logResponse:response error:error];
-                
-            }];
-            
-        }];
-        
-    }
-    else if ([segue.identifier isEqualToString:@"/app/encounter/create"]) {
-        NSDictionary *nsDict = @{
-                                    @"displayName" : @"Name",
-                                    @"user1Id" :  @"user1",
-                                    @"user2Id" : @"user2"
-                                    };
-        NSArray *params = @[nsDict];
-        
-        [controller configureWithMethodBlock:^(CDMethodResultsViewController *resultsController) {
-            
-            [[CDMeteorClient sharedClient] callMethodName:@"/app/encounter/create" parameters:params responseCallback:^(NSDictionary *response, NSError *error) {
-                
-                [controller logResponse:response error:error];
-                
-            }];
-            
-        }];
-        
-    }
-    else if ([segue.identifier isEqualToString:@"/app/connection/create"]) {
-        
-        
-        NSArray *params = @[@{@"displayName" : @"Name", @"userId" : @"user1"}];
-        
-        [controller configureWithMethodBlock:^(CDMethodResultsViewController *resultsController) {
-            
-            [[CDMeteorClient sharedClient] callMethodName:@"/app/connection/create" parameters:params responseCallback:^(NSDictionary *response, NSError *error) {
-                
-                [controller logResponse:response error:error];
-                
-            }];
-            
-        }];
-        
-    }
-    else if ([segue.identifier isEqualToString:@"/app/conversation/create"]) {
-        
-        
-        NSArray *params = @[@{@"displayName" : @"Name", @"user1Id" :  @"user1", @"user2Id" : @"user2"}];
-        
-        [controller configureWithMethodBlock:^(CDMethodResultsViewController *resultsController) {
-            
-            [[CDMeteorClient sharedClient] callMethodName:@"/app/conversation/create" parameters:params responseCallback:^(NSDictionary *response, NSError *error) {
-                
-                [controller logResponse:response error:error];
-                
-            }];
-            
-        }];
-        
-    }
-    else if ([segue.identifier isEqualToString:@"/app/message/send"]) {
-        
-        
-        NSArray *params = @[@{@"text" : @"Name",@"user1Id" :  @"user1",@"user2Id" : @"user2",@"conversationId": @"conversation"}];
-        
-        [controller configureWithMethodBlock:^(CDMethodResultsViewController *resultsController) {
-            
-            [[CDMeteorClient sharedClient] callMethodName:@"/app/message/send" parameters:params responseCallback:^(NSDictionary *response, NSError *error) {
-                
-                [controller logResponse:response error:error];
-                
-            }];
-            
-        }];
-        
-    }
-    else if ([segue.identifier isEqualToString:@"/app/settings/update"]) {
-    
-        
-        NSArray *params = @[@{@"userId":@"user", @"displayName" : @"Name"}];
-        
-        [controller configureWithMethodBlock:^(CDMethodResultsViewController *resultsController) {
-            
-            [[CDMeteorClient sharedClient] callMethodName:@"/app/settings/update" parameters:params responseCallback:^(NSDictionary *response, NSError *error) {
-                
-                [controller logResponse:response error:error];
-                
-            }];
-            
-        }];
-        
-    }
-    else if ([segue.identifier isEqualToString:@"/app/tag/create"]) {
-        
-        
-        NSArray *params = @[@{@"userId":@"user", @"displayName" : @"Name"}];
-        
-        [controller configureWithMethodBlock:^(CDMethodResultsViewController *resultsController) {
-            
-            [[CDMeteorClient sharedClient] callMethodName:@"/app/tag/create" parameters:params responseCallback:^(NSDictionary *response, NSError *error) {
-                
-                [controller logResponse:response error:error];
-                
-            }];
-            
-        }];
-        
-    }
-    else if ([segue.identifier isEqualToString:@"/app/profile/Update"]) {
-        
-        
-        NSArray *params = @[@{@"userId":@"user", @"displayName" : @"Name"}];
-        
-        [controller configureWithMethodBlock:^(CDMethodResultsViewController *resultsController) {
-            
-            [[CDMeteorClient sharedClient] callMethodName:@"/app/profile/Update" parameters:params responseCallback:^(NSDictionary *response, NSError *error) {
-                
-                [controller logResponse:response error:error];
-                
-            }];
-            
-        }];
-        
-    }
-    else if ([segue.identifier isEqualToString:@"connection_index"]) {
-        
-        [controller configureWithMethodBlock:^(CDMethodResultsViewController *resultsController) {
-            
-            
-            [[NSNotificationCenter defaultCenter] addObserverForName:@"connection_added" object:nil queue:[NSOperationQueue new] usingBlock:^(NSNotification *note) {
-                [controller logResponse:note.userInfo error:nil];
-            }];
-            
-           [[CDMeteorClient sharedClient] addSubscription:@"connection_index"];
-            
-        }];
-        
-    }
-    else if ([segue.identifier isEqualToString:@"conversation_index"]) {
-        
-        [controller configureWithMethodBlock:^(CDMethodResultsViewController *resultsController) {
-            [[CDMeteorClient sharedClient] addSubscription:@"conversation_index"];
-            
-        }];
-        
-    }
-    else if ([segue.identifier isEqualToString:@"encounter_index"]) {
-        
-        [controller configureWithMethodBlock:^(CDMethodResultsViewController *resultsController) {
-           [[CDMeteorClient sharedClient] addSubscription:@"encounter_index"];
-            
-        }];
-        
-    }
-    else if ([segue.identifier isEqualToString:@"message_index"]) {
-        
-        [controller configureWithMethodBlock:^(CDMethodResultsViewController *resultsController) {
-          [[CDMeteorClient sharedClient] addSubscription:@"message_index"];
-            
-        }];
-        
-    }
-    else if ([segue.identifier isEqualToString:@"profile_index"]) {
-        
-        [controller configureWithMethodBlock:^(CDMethodResultsViewController *resultsController) {
-          [[CDMeteorClient sharedClient] addSubscription:@"profile_index"];
-           
-            
-        }];
-        
-    }
-    else if ([segue.identifier isEqualToString:@"settings_index"]) {
-        
-        [controller configureWithMethodBlock:^(CDMethodResultsViewController *resultsController) {
-          [[CDMeteorClient sharedClient] addSubscription:@"settings_index"];
-         
-            
-        }];
-        
-    }
-    else if ([segue.identifier isEqualToString:@"tag_index"]) {
-        
-        [controller configureWithMethodBlock:^(CDMethodResultsViewController *resultsController) {
-            [[CDMeteorClient sharedClient] addSubscription:@"tag_index"];
-            
-        }];
-        
-    } else if ([segue.identifier isEqualToString:@"/app/layer/createUser"]) {
-        
-        NSArray *params = @[[CDMeteorClient sharedClient].userId];
-        
-        [controller configureWithMethodBlock:^(CDMethodResultsViewController *resultsController) {
-            
-            [[CDMeteorClient sharedClient] callMethodName:@"/app/layer/createUser" parameters:params responseCallback:^(NSDictionary *response, NSError *error) {
+            // TODO: Change the parameter to an existing encounterId for which a connection does not exist.
+            [[CDMeteorClient sharedClient] callMethodName:@"/app/connection_request_with_encounter" parameters:@[@"Fy5p4QSBXrDSAzFZL"] responseCallback:^(NSDictionary *response, NSError *error) {
                 
                 [controller logResponse:response error:error];
                 
             }];
         }];
-    }
-    
-    else if ([segue.identifier isEqualToString:@"/app/layer/deleteUser"]) {
-        
-        NSArray *params = @[[CDMeteorClient sharedClient].userId];
+    } else if ([segue.identifier isEqualToString:@"/app/create_encounter"]) {
         
         [controller configureWithMethodBlock:^(CDMethodResultsViewController *resultsController) {
             
-            [[CDMeteorClient sharedClient] callMethodName:@"/app/layer/deleteUser" parameters:params responseCallback:^(NSDictionary *response, NSError *error) {
+            // TODO: Change the request parameters to existing values
+            NSArray *parameters = @[testUserId,[NSNumber numberWithFloat:38.360844],[NSNumber numberWithFloat:-81.620803]];
+            [[CDMeteorClient sharedClient] callMethodName:@"/app/create_encounter" parameters:parameters responseCallback:^(NSDictionary *response, NSError *error) {
+                
+                [controller logResponse:response error:error];
+                
+            }];
+        }];
+    } else if ([segue.identifier isEqualToString:@"/app/get_encounters_for_user"]) {
+        
+        [controller configureWithMethodBlock:^(CDMethodResultsViewController *resultsController) {
+            
+            // TODO: Change the request parameters to existing values
+            NSArray *parameters = @[testUserId];
+            [[CDMeteorClient sharedClient] callMethodName:@"/app/get_encounters_for_user" parameters:parameters responseCallback:^(NSDictionary *response, NSError *error) {
+                
+                [controller logResponse:response error:error];
+                
+            }];
+        }];
+    } else if ([segue.identifier isEqualToString:@"/app/get_my_connections"]) {
+        
+        [controller configureWithMethodBlock:^(CDMethodResultsViewController *resultsController) {
+            
+            [[CDMeteorClient sharedClient] callMethodName:@"/app/get_my_connections" parameters:nil responseCallback:^(NSDictionary *response, NSError *error) {
+                
+                [controller logResponse:response error:error];
+                
+            }];
+        }];
+    } else if ([segue.identifier isEqualToString:@"/app/upsert_my_profile"]) {
+        
+        [controller configureWithMethodBlock:^(CDMethodResultsViewController *resultsController) {
+            
+            [[CDMeteorClient sharedClient] callMethodName:@"/app/upsert_my_profile" parameters:@[@{@"displayName":[[NSDate date] description]}] responseCallback:^(NSDictionary *response, NSError *error) {
+                
+                [controller logResponse:response error:error];
+                
+            }];
+        }];
+    } else if ([segue.identifier isEqualToString:@"/app/get_profile_for_user"]) {
+        
+        [controller configureWithMethodBlock:^(CDMethodResultsViewController *resultsController) {
+            
+            // TODO: Change the request parameters to existing values
+            NSArray *parameters = @[testUserId];
+            [[CDMeteorClient sharedClient] callMethodName:@"/app/get_profile_for_user" parameters:parameters responseCallback:^(NSDictionary *response, NSError *error) {
+                
+                [controller logResponse:response error:error];
+                
+            }];
+        }];
+    } else if ([segue.identifier isEqualToString:@"/app/register_conversation_for_connection"]) {
+        
+        [controller configureWithMethodBlock:^(CDMethodResultsViewController *resultsController) {
+            
+            // TODO: Change the request parameters to existing values
+            NSArray *parameters = @[@"connection_sdasdasdsd"];
+            [[CDMeteorClient sharedClient] callMethodName:@"/app/register_conversation_for_connection" parameters:parameters responseCallback:^(NSDictionary *response, NSError *error) {
                 
                 [controller logResponse:response error:error];
                 

@@ -14,6 +14,7 @@
 		FA7E5B64196C5C84005AB29C /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA7E5B63196C5C84005AB29C /* Storyboard.storyboard */; };
 		FA7E5B67196C5D2D005AB29C /* CDLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7E5B66196C5D2D005AB29C /* CDLoginViewController.m */; };
 		FA7E5B6A196C5D3B005AB29C /* CDHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7E5B69196C5D3B005AB29C /* CDHomeViewController.m */; };
+		FAD7D00219991093009BD2BB /* Cheekd.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FAD7D00019991093009BD2BB /* Cheekd.xcdatamodeld */; };
 		FAD9084D196C519500050B41 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAD9084C196C519500050B41 /* Foundation.framework */; };
 		FAD9084F196C519500050B41 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAD9084E196C519500050B41 /* CoreGraphics.framework */; };
 		FAD90851196C519500050B41 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAD90850196C519500050B41 /* UIKit.framework */; };
@@ -52,6 +53,7 @@
 		FA7E5B66196C5D2D005AB29C /* CDLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDLoginViewController.m; sourceTree = "<group>"; };
 		FA7E5B68196C5D3B005AB29C /* CDHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDHomeViewController.h; sourceTree = "<group>"; };
 		FA7E5B69196C5D3B005AB29C /* CDHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDHomeViewController.m; sourceTree = "<group>"; };
+		FAD7D00119991093009BD2BB /* Cheekd.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Cheekd.xcdatamodel; sourceTree = "<group>"; };
 		FAD90849196C519500050B41 /* Cheekd.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cheekd.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAD9084C196C519500050B41 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		FAD9084E196C519500050B41 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -145,6 +147,7 @@
 				FA08859419744C5D00A0FFDA /* CDMethodsTableViewController.m */,
 				FA08859619744C8A00A0FFDA /* CDMethodResultsViewController.h */,
 				FA08859719744C8A00A0FFDA /* CDMethodResultsViewController.m */,
+				FAD7D00019991093009BD2BB /* Cheekd.xcdatamodeld */,
 			);
 			path = Cheekd;
 			sourceTree = "<group>";
@@ -317,6 +320,7 @@
 				FA08859819744C8A00A0FFDA /* CDMethodResultsViewController.m in Sources */,
 				FAD90859196C519500050B41 /* main.m in Sources */,
 				FAD9085D196C519500050B41 /* CDAppDelegate.m in Sources */,
+				FAD7D00219991093009BD2BB /* Cheekd.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -531,6 +535,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		FAD7D00019991093009BD2BB /* Cheekd.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				FAD7D00119991093009BD2BB /* Cheekd.xcdatamodel */,
+			);
+			currentVersion = FAD7D00119991093009BD2BB /* Cheekd.xcdatamodel */;
+			path = Cheekd.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = FAD90841196C519500050B41 /* Project object */;
 }

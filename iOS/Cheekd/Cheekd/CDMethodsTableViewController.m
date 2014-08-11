@@ -130,6 +130,18 @@ static NSString *testUserId;
                 
             }];
         }];
+    } else if ([segue.identifier isEqualToString:@"/app/layer/deleteUser"]) {
+        
+        [controller configureWithMethodBlock:^(CDMethodResultsViewController *resultsController) {
+            
+            // TODO: Change the request parameters to existing values
+            NSArray *parameters = @[testUserId];
+            [[CDMeteorClient sharedClient] callMethodName:@"/app/layer/deleteUser" parameters:parameters responseCallback:^(NSDictionary *response, NSError *error) {
+                
+                [controller logResponse:response error:error];
+                
+            }];
+        }];
     }
 }
 

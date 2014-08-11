@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="14A298i" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Conversation" representedClassName="CHKConversation" syncable="YES">
+        <attribute name="conversationId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dateCreated" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="lastMessage" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lastMessageDateSent" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="lastMessageRead" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <relationship name="destinationUser" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="conversations" inverseEntity="User" syncable="YES"/>
+        <relationship name="messages" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Message" inverseName="conversation" inverseEntity="Message" syncable="YES"/>
+    </entity>
+    <entity name="Image" representedClassName="CHKImage" syncable="YES">
+        <attribute name="originalURL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="thumbnailURL" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="like" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Like" inverseName="image" inverseEntity="Like" syncable="YES"/>
+        <relationship name="profilePicture" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ProfilePicture" inverseName="image" inverseEntity="ProfilePicture" syncable="YES"/>
+    </entity>
+    <entity name="Like" representedClassName="CHKLike" syncable="YES">
+        <attribute name="facebookID" attributeType="String" syncable="YES"/>
+        <attribute name="isHidden" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="image" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Image" inverseName="like" inverseEntity="Image" syncable="YES"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="likes" inverseEntity="User" syncable="YES"/>
+    </entity>
+    <entity name="Message" representedClassName="CHKMessage" syncable="YES">
+        <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dateSent" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="remote" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <relationship name="conversation" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Conversation" inverseName="messages" inverseEntity="Conversation" syncable="YES"/>
+    </entity>
+    <entity name="ProfilePicture" representedClassName="CHKProfilePicture" syncable="YES">
+        <attribute name="selectionIndex" optional="YES" attributeType="Integer 16" syncable="YES"/>
+        <relationship name="image" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Image" inverseName="profilePicture" inverseEntity="Image" syncable="YES"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="profilePictures" inverseEntity="User" syncable="YES"/>
+    </entity>
+    <entity name="User" representedClassName="CHKUser" syncable="YES">
+        <attribute name="age" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="connectionId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dateMet" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="encounterId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="facebookID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="firstName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="gender" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="lastName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="location" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="numberOfMiss" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="userID" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="connections" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="User" inverseName="connections" inverseEntity="User" syncable="YES"/>
+        <relationship name="conversations" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Conversation" inverseName="destinationUser" inverseEntity="Conversation" syncable="YES"/>
+        <relationship name="encounters" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="User" inverseName="encounters" inverseEntity="User" syncable="YES"/>
+        <relationship name="likes" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Like" inverseName="user" inverseEntity="Like" syncable="YES"/>
+        <relationship name="profilePictures" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="ProfilePicture" inverseName="user" inverseEntity="ProfilePicture" syncable="YES"/>
+        <relationship name="userProfile" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="UserProfile" inverseName="user" inverseEntity="UserProfile" syncable="YES"/>
+    </entity>
+    <entity name="UserProfile" representedClassName="CHKUserProfile" syncable="YES">
+        <attribute name="ageEnd" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="ageStart" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="biography" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="cityOrigin" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="currentCity" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="interestedInGender" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="kindOfRelationship" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="newMessageNotificationPreference" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="pets" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="tagNotificationsPreference" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="workDescription" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="userProfile" inverseEntity="User" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Conversation" positionX="0" positionY="0" width="128" height="150"/>
+        <element name="Image" positionX="0" positionY="0" width="128" height="103"/>
+        <element name="Like" positionX="0" positionY="0" width="128" height="120"/>
+        <element name="Message" positionX="0" positionY="0" width="128" height="105"/>
+        <element name="ProfilePicture" positionX="0" positionY="0" width="128" height="90"/>
+        <element name="User" positionX="0" positionY="0" width="128" height="298"/>
+        <element name="UserProfile" positionX="0" positionY="0" width="128" height="223"/>
+    </elements>
+</model>
